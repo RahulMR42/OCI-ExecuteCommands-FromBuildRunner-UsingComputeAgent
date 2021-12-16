@@ -24,6 +24,7 @@ steps:
     timeoutInSeconds: 40
     command: |
       oci os ns get 
+      oci instance-agent command get --command-id ${COMMAND_OCID}
       oci instance-agent command-execution list --compartment-id ${COMPARTMENT_OCID} --instance-id ${INSTANCE_OCID}
 
 
