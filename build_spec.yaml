@@ -23,9 +23,7 @@ steps:
     name: "Running commands from BR "
     timeoutInSeconds: 40
     command: |
-      export BUILDRUN_HASH=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-7`
-      echo "BUILDRUN_HASH: $BUILDRUN_HASH"
-      echo `id -a;whoami ;ls ~;`
+      oci instance-agent command-execution list --compartment-id ${INSTANCE_OCID} --instance-id ${COMPARTMENT_OCID}
 
 
       
