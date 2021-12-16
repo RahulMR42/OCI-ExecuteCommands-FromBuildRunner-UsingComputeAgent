@@ -23,6 +23,7 @@ steps:
     name: "Running commands from BR "
     timeoutInSeconds: 40
     command: |
+      export OCI_CLI_AUTH=resource_principal
       oci instance-agent command-execution list --compartment-id ${INSTANCE_OCID} --instance-id ${COMPARTMENT_OCID}
 
 
