@@ -23,10 +23,8 @@ steps:
     name: "Running commands from BR "
     timeoutInSeconds: 40
     command: |
-      export OCI_use_obo_token=true
-      export OCI_AUTH=InstancePrincipal
-      export OCI_obo_token=${OCI_RESOURCE_PRINCIPAL_RPST}
-      oci instance-agent command-execution list --compartment-id ${INSTANCE_OCID} --instance-id ${COMPARTMENT_OCID}
+      oci os ns get 
+  # oci instance-agent command-execution list --compartment-id ${INSTANCE_OCID} --instance-id ${COMPARTMENT_OCID}
 
 
       
