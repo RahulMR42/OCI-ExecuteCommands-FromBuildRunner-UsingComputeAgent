@@ -1,5 +1,2 @@
 hostname
-date
-pwd
-ls -ltr
-id -a
+df -h 
