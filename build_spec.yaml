@@ -6,9 +6,9 @@ shell: bash
 env:
   # these are local variables to the build config
   variables:
-    code_repo_name: "buildRunner_OnInstance"
-    LOCAL_CHECK_STATE: "SUCCEEDED"
-    TIMEOUT_IN_SECONDS: 60
+    code_repo_name: "buildRunner_OnInstance" # Foldername which is used as the primary target source under OCI Build managed build stage.
+    LOCAL_CHECK_STATE: "SUCCEEDED" #Its a dummy variable for now ,but can be used if you wish to add more status checks across.
+    TIMEOUT_IN_SECONDS: 60 #Its a timeout for compute agent execution.
 
 steps:
   - type: Command
@@ -16,8 +16,9 @@ steps:
     timeoutInSeconds: 40
     command: |
       cd ${OCI_WORKSPACE_DIR}/${code_repo_name}
-      echo "hostname;date">sample_command.txt
-      oci os object put --namespace ${OBJECT_STORE_NAMESPACE} --bucket-name ${OBJECT_STORE_BUCKET_NAME} --file sample_command.txt --no-multipart --force
+      oci os object put --namespace ${OBJECT_STORE_NAMESPACE} --bucket-name ${OBJECT_STORE_BUCKET_NAME} --file sample_cmmand_for_agent.txt --no-multipart --force
+
+    # In the above step Using sample_cmmand_for_agent.txt file to push to object,if you wish to use different name ,please do update the content.json as well. 
 
   - type: Command
     name: "OCI Instance Agent Inovkation"
@@ -41,11 +42,13 @@ steps:
     command: |
       cd ${OCI_WORKSPACE_DIR}/${code_repo_name}
       if [ "${LOCAL_CHECK_STATE}" != "FAILED" ] ;then
-        oci os object get --namespace ${OBJECT_STORE_NAMESPACE} --bucket-name ${OBJECT_STORE_BUCKET_NAME} --file from_object_store.txt --name sample_output.txt
+        oci os object get --namespace ${OBJECT_STORE_NAMESPACE} --bucket-name ${OBJECT_STORE_BUCKET_NAME} --file from_object_store.txt --name sample_command_output_for_agent.txt
+        echo """"""""""""""""""""""""""""""""Execution Output""""""""""""""""""""""""""""""""""""""""""""""""""
         cat from_object_store.txt
+        echo """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
       fi
       
-
+# In the above steps ,reading the agent execution output from a file named sample_command_output_for_agent.txt ,for any changes ,do update the content.json as well.
 
 
 

@@ -1,0 +1,2 @@
+echo "`date` - > I am reporting from host `hostname`!"
+
