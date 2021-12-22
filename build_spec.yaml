@@ -11,7 +11,7 @@ env:
 
 steps:
   - type: Command
-    name: "Commands to Object Storage"
+    name: " Update Object Storage"
     timeoutInSeconds: 40
     command: |
       cd ${OCI_WORKSPACE_DIR}/${code_repo_name}
@@ -19,7 +19,7 @@ steps:
       oci os object put --namespace ${OBJECT_STORE_NAMESPACE} --bucket-name ${OBJECT_STORE_BUCKET_NAME} --file sample_command.txt --no-multipart --force
 
   - type: Command
-    name: "Running commands from BR "
+    name: "OCI Instace Agent Inovkation"
     timeoutInSeconds: 300
     command: |
       cd ${OCI_WORKSPACE_DIR}/${code_repo_name}
@@ -29,7 +29,7 @@ steps:
 
       fi
       oci instance-agent command create --compartment-id ${COMPARTMENT_OCID} --content file://content.json --target file://instances.json --timeout-in-seconds ${TIMEOUT_IN_SECONDS} --display-name "cmd_by_build_${BUILDRUN_HASH}"
-      echo "Inked Command with a display - cmd_by_build_${BUILDRUN_HASH}"
+      echo "Invoked Command exec with a display - cmd_by_build_${BUILDRUN_HASH}"
       sleep ${TIMEOUT_IN_SECONDS}
       for instance_id in `cat instances.json|grep instanceId|cut -f 2 -d ':'`
       do
