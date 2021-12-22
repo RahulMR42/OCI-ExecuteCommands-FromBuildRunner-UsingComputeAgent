@@ -7,6 +7,7 @@ env:
   # these are local variables to the build config
   variables:
     code_repo_name: "buildRunner_OnInstance"
+    TIMEOUT_IN_SECONDS: 60
 
 steps:
   - type: Command
@@ -19,16 +20,38 @@ steps:
 
   - type: Command
     name: "Running commands from BR "
-    timeoutInSeconds: 40
+    timeoutInSeconds: 300
     command: |
       cd ${OCI_WORKSPACE_DIR}/${code_repo_name}
-      export BUILDRUN_HASH=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-5`
+      export BUILDRUN_HASH=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-7`
       if [ ! -e "instances.json" ] ; then
           echo '{"instanceId": "'${INSTANCE_OCID}'"}' > instances.json
 
       fi
-      oci_agent_command_exec_id=`oci instance-agent command create --compartment-id ${COMPARTMENT_OCID} --content file://content.json --target file://instances.json --timeout-in-seconds 120 --display-name "cmd_by_build_${BUILDRUN_HASH}"|grep -w 'instanceagentcommand'|cut -f 2 -d ':'`
-      echo "Command execution created with ID : ${oci_agent_command_exec_id}"
+      oci instance-agent command create --compartment-id ${COMPARTMENT_OCID} --content file://content.json --target file://instances.json --timeout-in-seconds ${TIMEOUT_IN_SECONDS} --display-name "cmd_by_build_${BUILDRUN_HASH}"|grep -w 'instanceagentcommand'|cut -f 2 -d ':'
+      sleep(TIMEOUT_IN_SECONDS)
+      for instance_id in `cat instances.json|grep instanceId|cut -f 2 -d ':'`
+      do
+        oci instance-agent command-execution list --compartment-id ${COMPARTMENT_OCID} --instance-id ${instance_id} >temp.op
+        exec_status=`cat temp.op|grep -w "cmd_by_build_${BUILDRUN_HASH}" -A5 |grep 'lifecycle-state'|cut -f 2 -d ':'`
+        echo "Instance ID : ${instance_id},Command Exec status : {exec_status}"
+        if [ "${exec_status}" != "SUCCEEDED" ] ;then
+              export LOCAL_CHECK_STATE="FAILED"
+        fi
+      done
+
+  - type: Command
+    name: "Read from Object storage"
+    timeoutInSeconds: 300
+    command: |
+      cd ${OCI_WORKSPACE_DIR}/${code_repo_name}
+      if [ "${LOCAL_CHECK_STATE}" != "FAILED" ] ;then
+        oci os object get --namespace ${OBJECT_STORE_NAMESPACE} --bucket-name ${OBJECT_STORE_BUCKET_NAME} --file from_object_store.txt --name sample_output.txt
+      fi
+
+
+
+
       
      
 
