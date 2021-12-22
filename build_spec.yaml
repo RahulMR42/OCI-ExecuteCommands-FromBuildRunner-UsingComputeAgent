@@ -6,19 +6,17 @@ shell: bash
 env:
   # these are local variables to the build config
   variables:
-    key: "value"
-
-  # the value of a vaultVariable is the secret-id (in OCI ID format) stored in the OCI Vault service
-  # you can then access the value of that secret in your build_spec.yaml commands
-  vaultVariables:
-  #  EXAMPLE_SECRET: "YOUR-SECRET-OCID"
-  
-  # exportedVariables are made available to use as parameters in sucessor Build Pipeline stages
-  # For this Build to run, the Build Pipeline needs to have a BUILDRUN_HASH parameter set
-  exportedVariables:
-    - BUILDRUN_HASH
+    code_repo_name: "buildRunner_OnInstance"
 
 steps:
+  - type: Command
+    name: "Commands to Object Storage"
+    timeoutInSeconds: 40
+    command: |
+      cd ${OCI_WORKSPACE_DIR}/${code_repo_name}
+      echo "hostname;date">sample_command.txt
+      oci os object put --namespace ${OBJECT_STORE_NAMESPACE} --bucket-name ${OBJECT_STORE_BUCKET_NAME} --file sample_command.txt --no-multipart --force
+
   - type: Command
     name: "Running commands from BR "
     timeoutInSeconds: 40
@@ -29,17 +27,3 @@ steps:
 
 
       
-# outputArtifacts:
-#   - name: output_fn_custom_image
-#     type: DOCKER_IMAGE
-#     # this is only the locally exported container image name
-#     # this location tag doesn't effect the tag used to deliver the container image
-#     # to the Container Registry.
-#     location: fncustomhelloworld:0.0.0
-
-#   - name: output_fn_default_image
-#     type: DOCKER_IMAGE
-#     # this is only the locally exported container image name
-#     # this location tag doesn't effect the tag used to deliver the container image
-#     # to the Container Registry.
-#     location: fndefaulthelloworld:0.0.0  

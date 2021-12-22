@@ -1,0 +1,43 @@
+{
+    "compartmentId": "ocid1.compartment.oc1..aaaaaaaalbagydl2powatrvczfdfempy5z5j7g7kjm3gp6lkuk2odvvsrvdq",
+    "content": {
+      "output": [
+        
+        {
+          "bucketName": "terraform-backend",
+          "namespaceName": "fahdabidiroottenancy",
+          "objectName": "sample_output.txt",
+          "outputType": "OBJECT_STORAGE_TUPLE"
+        },
+        {
+          "outputType": "OBJECT_STORAGE_URI",
+          "outputUri": "https://objectstorage.us-ashburn-1.oraclecloud.com/n/fahdabidiroottenancy/b/terraform-backend/o/sample_output.txt"
+        },
+        {
+          "outputType": "TEXT"
+        }
+      ],
+      "source": [
+        "",
+        {
+          "bucketName": "terraform-backend",
+          "namespaceName": "fahdabidiroottenancy",
+          "objectName": "sample_command.txt",
+          "sourceType": "OBJECT_STORAGE_TUPLE"
+        },
+        {
+          "sourceType": "OBJECT_STORAGE_URI",
+          "sourceUri": "https://objectstorage.us-ashburn-1.oraclecloud.com/n/fahdabidiroottenancy/b/terraform-backend/o/sample_command.txt"
+        },
+        {
+          "sourceType": "TEXT"
+          
+        }
+      ]
+    },
+    "displayName": "sample-command",
+    "target": {
+      "instanceId": "ocid1.instance.oc1.iad.anuwcljrk56z2vqcxm7yzegqb7llv773oronkaijbrrtefu7a653esoycdhq"
+    },
+    "timeoutInSeconds": "120"
+  }

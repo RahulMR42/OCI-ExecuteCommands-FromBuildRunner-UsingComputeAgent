@@ -1,0 +1,36 @@
+{
+    "output": [
+      "This parameter should actually be a JSON object rather than an array - pick one of the following object variants to use",
+      {
+        "bucketName": "terraform-backend",
+        "namespaceName": "fahdabidiroottenancy",
+        "objectName": "sample_output.txt",
+        "outputType": "OBJECT_STORAGE_TUPLE"
+      },
+      {
+        "outputType": "OBJECT_STORAGE_URI",
+        "outputUri": "https://objectstorage.us-ashburn-1.oraclecloud.com/n/fahdabidiroottenancy/b/terraform-backend/o/sample_output.txt"
+      },
+      {
+        "outputType": "TEXT"
+      }
+    ],
+    "source": [
+      "This parameter should actually be a JSON object rather than an array - pick one of the following object variants to use",
+      {
+        "bucketName": "terraform-backend",
+        "namespaceName": "fahdabidiroottenancy",
+        "objectName": "sample_command.txt",
+        "sourceType": "OBJECT_STORAGE_TUPLE"
+      },
+      {
+        "sourceType": "OBJECT_STORAGE_URI",
+          "sourceUri": "https://objectstorage.us-ashburn-1.oraclecloud.com/n/fahdabidiroottenancy/b/terraform-backend/o/sample_command.txt"
+      },
+      {
+        "sourceType": "TEXT",
+        "text": "string",
+        "textSha256": "string"
+      }
+    ]
+  }
