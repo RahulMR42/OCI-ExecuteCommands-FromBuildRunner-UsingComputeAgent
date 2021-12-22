@@ -31,17 +31,9 @@ steps:
       fi
       oci instance-agent command create --compartment-id ${COMPARTMENT_OCID} --content file://content.json --target file://instances.json --timeout-in-seconds ${TIMEOUT_IN_SECONDS} --display-name "cmd_by_build_${BUILDRUN_HASH}"
       echo "Invoked Command exec with a display - cmd_by_build_${BUILDRUN_HASH}"
+      echo "Sleeping for ${TIMEOUT_IN_SECONDS} seconds...."
       sleep ${TIMEOUT_IN_SECONDS}
-      for instance_id in `cat instances.json|grep instanceId|cut -f 2 -d ':'|xargs`
-      do
-        oci instance-agent command-execution list --compartment-id ${COMPARTMENT_OCID} --instance-id ${instance_id} >temp.op
-        exec_status=`cat temp.op|grep -w cmd_by_build_${BUILDRUN_HASH} -A5 |grep 'lifecycle-state'|cut -f 2 -d ':'`
-        echo "Instance ID : ${instance_id},Command Exec status : ${exec_status}"
-       
-        if [ "${exec_status}" != "SUCCEEDED" ] ;then
-              export LOCAL_CHECK_STATE="FAILED"
-        fi
-      done
+      
 
   - type: Command
     name: "Read from Object storage"
@@ -50,8 +42,9 @@ steps:
       cd ${OCI_WORKSPACE_DIR}/${code_repo_name}
       if [ "${LOCAL_CHECK_STATE}" != "FAILED" ] ;then
         oci os object get --namespace ${OBJECT_STORE_NAMESPACE} --bucket-name ${OBJECT_STORE_BUCKET_NAME} --file from_object_store.txt --name sample_output.txt
+        cat from_object_store.txt
       fi
-      cat from_object_store.txt
+      
 
 
 
