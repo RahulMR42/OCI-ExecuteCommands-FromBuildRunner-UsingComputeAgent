@@ -27,8 +27,8 @@ steps:
           echo '{"instanceId": "'${INSTANCE_OCID}'"}' > instances.json
 
       fi
-      oci instance-agent command create --compartment-id ${COMPARTMENT_OCID} --content file://content.json --target file://instances.json --timeout-in-seconds 120 --display-name "cmd_by_build_${BUILDRUN_HASH}" >agent.op
-      cat agent.op
+      oci_agent_command_exec_id=`oci instance-agent command create --compartment-id ${COMPARTMENT_OCID} --content file://content.json --target file://instances.json --timeout-in-seconds 120 --display-name "cmd_by_build_${BUILDRUN_HASH}"|grep -w 'instanceagentcommand'|cut -f 2 -d ':'`
+      echo "Command execution created with ID : ${oci_agent_command_exec_id}"
       
      
 
