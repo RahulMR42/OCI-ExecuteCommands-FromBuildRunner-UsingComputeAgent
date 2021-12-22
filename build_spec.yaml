@@ -7,7 +7,7 @@ env:
   # these are local variables to the build config
   variables:
     code_repo_name: "buildRunner_OnInstance"
-    LOCAL_CHECK_STATE:"SUCCEEDED"
+    LOCAL_CHECK_STATE: "SUCCEEDED"
     TIMEOUT_IN_SECONDS: 60
 
 steps:
@@ -36,7 +36,7 @@ steps:
       do
         oci instance-agent command-execution list --compartment-id ${COMPARTMENT_OCID} --instance-id ${instance_id} >temp.op
         exec_status=`cat temp.op|grep -w "cmd_by_build_${BUILDRUN_HASH}" -A5 |grep 'lifecycle-state'|cut -f 2 -d ':'`
-        echo "Instance ID : ${instance_id},Command Exec status : {exec_status}"
+        echo 'Instance ID : ${instance_id},Command Exec status : ${exec_status}'
        
         if [ "${exec_status}" != "SUCCEEDED" ] ;then
               export LOCAL_CHECK_STATE="FAILED"
@@ -51,6 +51,7 @@ steps:
       if [ "${LOCAL_CHECK_STATE}" != "FAILED" ] ;then
         oci os object get --namespace ${OBJECT_STORE_NAMESPACE} --bucket-name ${OBJECT_STORE_BUCKET_NAME} --file from_object_store.txt --name sample_output.txt
       fi
+      cat from_object_store.txt
 
 
 
