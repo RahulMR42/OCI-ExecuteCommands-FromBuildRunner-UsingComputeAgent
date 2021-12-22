@@ -23,7 +23,7 @@ steps:
     command: |
       cd ${OCI_WORKSPACE_DIR}/${code_repo_name}
       export BUILDRUN_HASH=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-5`
-      if [ ! -e "instances.json ] ; then
+      if [ ! -e "instances.json" ] ; then
           echo '{"instanceId": "'${INSTANCE_OCID}'"}' > instances.json
 
       fi
