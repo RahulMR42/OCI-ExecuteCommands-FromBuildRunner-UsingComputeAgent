@@ -1,20 +1,20 @@
 {
     "output": 
       {
-        "bucketName": "terraform-backend",
-        "namespaceName": "fahdabidiroottenancy",
+        "bucketName": "<OCI Object Storage Bucket Name>",
+        "namespaceName": "<OCI Object Storage Namespace>",
         "objectName": "sample_command_output_for_agent.txt",
         "outputType": "OBJECT_STORAGE_TUPLE",
-        "outputUri": "https://objectstorage.us-ashburn-1.oraclecloud.com/n/fahdabidiroottenancy/b/terraform-backend/o/sample_command_output_for_agent.txt"
+        "outputUri": "https://objectstorage.<oci region>.oraclecloud.com/n/<object storage namespace>/b/<object storage bucket name>/o/sample_command_output_for_agent.txt"
       },
       
     "source": 
         {
-        "bucketName": "terraform-backend",
-        "namespaceName": "fahdabidiroottenancy",
+        "bucketName": "<OCI Object Storage Bucket Name>",
+        "namespaceName": "<OCI Object Storage Namespace>",
         "objectName": "sample_command_input_for_agent.txt",
         "sourceType": "OBJECT_STORAGE_TUPLE",
-        "sourceUri": "https://objectstorage.us-ashburn-1.oraclecloud.com/n/fahdabidiroottenancy/b/terraform-backend/o/sample_command_input_for_agent.txt"
+        "sourceUri": "https://objectstorage.<oci region>.oraclecloud.com/n/<object storage namespace>/b/<object storage bucket name>/o/sample_command_input_for_agent.txt"
       }
     
   }
