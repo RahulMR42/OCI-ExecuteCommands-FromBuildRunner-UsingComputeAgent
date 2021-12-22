@@ -16,7 +16,7 @@ steps:
     timeoutInSeconds: 40
     command: |
       cd ${OCI_WORKSPACE_DIR}/${code_repo_name}
-      oci os object put --namespace ${OBJECT_STORE_NAMESPACE} --bucket-name ${OBJECT_STORE_BUCKET_NAME} --file sample_cmmand_for_agent.txt --no-multipart --force
+      oci os object put --namespace ${OBJECT_STORE_NAMESPACE} --bucket-name ${OBJECT_STORE_BUCKET_NAME} --file sample_command_input_for_agent.txt --no-multipart --force
 
     # In the above step Using sample_cmmand_for_agent.txt file to push to object,if you wish to use different name ,please do update the content.json as well. 
 
