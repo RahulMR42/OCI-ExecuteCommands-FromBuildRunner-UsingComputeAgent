@@ -21,9 +21,15 @@ steps:
     name: "Running commands from BR "
     timeoutInSeconds: 40
     command: |
-      oci os ns get 
-      oci instance-agent command get --command-id ${COMMAND_OCID}
-      oci instance-agent command-execution list --compartment-id ${COMPARTMENT_OCID} --instance-id ${INSTANCE_OCID}
+      cd ${OCI_WORKSPACE_DIR}/${code_repo_name}
+      export BUILDRUN_HASH=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-5`
+      if [[ instances.json ! -e  ]]; then
+          echo '{"instanceId": "'${INSTANCE_OCID}'"}' > instances.json
 
+      fi
+      oci instance-agent command create --compartment-id ${COMPARTMENT_OCID} --content file://content.json --target file://instances.json --timeout-in-seconds 120 --display-name "cmd_by_build_${BUILDRUN_HASH}" >agent.op
+      cat agent.op
+      
+     
 
       
